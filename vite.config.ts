@@ -1,6 +1,6 @@
-import * as path from "node:path";
 import { heyApiPlugin } from "@hey-api/vite-plugin";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
+import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv } from "vite";
@@ -55,13 +55,13 @@ export default defineConfig(({ mode }) => {
 				autoCodeSplitting: true,
 				quoteStyle: "double",
 				semicolons: true,
-				routeFileIgnorePattern: "\\.module\\.scss",
 			}),
 			https(),
 			react({
 				babel: { plugins: ["babel-plugin-react-compiler"] },
 			}),
 			viteTsConfigPaths(),
+			tailwindcss(),
 			svgr({
 				svgrOptions: {
 					plugins: [
@@ -86,11 +86,6 @@ export default defineConfig(({ mode }) => {
 				},
 			}),
 		],
-		css: {
-			modules: {
-				localsConvention: "camelCase",
-			},
-		},
 		build: {
 			target: "esnext",
 			rollupOptions: {
@@ -133,15 +128,6 @@ export default defineConfig(({ mode }) => {
 					},
 				},
 			},
-		},
-		resolve: {
-			// vite-tsconfig-paths doesn't work in SASS files
-			alias: [
-				{
-					find: /^style\/(.*\.(c|s[ac])ss$)/,
-					replacement: `${path.resolve(__dirname)}/src/style/$1`,
-				},
-			],
 		},
 		server: {
 			open: true,

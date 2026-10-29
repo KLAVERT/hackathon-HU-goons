@@ -17,8 +17,8 @@ You are working in a production TypeScript + React repository. Make safe, minima
 | Data fetching   | `@hey-api/openapi-ts` (sdk + TanStack Query plugins) + `@tanstack/react-query`                   |
 | API types       | Generated into `src/lib/heyapi/` on `bun dev` / `bun run build` (configured in `vite.config.ts`) |
 | Forms           | react controlled components                                                                      |
-| UI primitives   | `@base-ui/react`                                                                                 |
-| Styling         | CSS Modules + SCSS (`sass`)                                                                      |
+| UI primitives   | `@base-ui/react`, via shadcn (`base-nova` style) in `src/components/ui/`                         |
+| Styling         | Tailwind CSS v4 (`@tailwindcss/vite`), theme tokens in `src/style/main.css`                      |
 | i18n            | `@inlang/paraglide-js`                                                                           |
 | Testing         | None installed                                                                                   |
 
@@ -38,7 +38,10 @@ Never bypass hooks or suggest `--no-verify`.
 
 ## UI primitives — base-ui
 
-Before implementing any interactive widget (dialog, popover, menu, select, checkbox, slider, tooltip, etc.), fetch `https://base-ui.com/llms.txt` and use the relevant `@base-ui/react` primitive. Do not hand-roll accessible widgets.
+Before implementing any interactive widget (dialog, popover, menu, select, checkbox, slider, tooltip, etc.), check whether shadcn has a component for it and add it with `bunx --bun shadcn@latest add <name>` (configured in `components.json`, base-ui variant). Otherwise fetch `https://base-ui.com/llms.txt` and use the relevant `@base-ui/react` primitive. Do not hand-roll accessible widgets.
+
+- shadcn components in `src/components/ui/` are owned by this repo and may be edited.
+- After adding one, make sure imports use `lib/utils` (the CLI can mis-resolve the alias).
 
 ---
 
@@ -73,7 +76,9 @@ Before implementing any interactive widget (dialog, popover, menu, select, check
 
 ## CSS
 
-- Use the sass features `@extend` or `@include` (mixins) instead of css modules' `composes` feature
+- Style with Tailwind utility classes in `className`; no CSS Modules or SCSS
+- Merge conditional/overridable classes with `cn()` from `lib/utils`
+- Use theme tokens (`bg-primary`, `text-muted-foreground`, `font-heading`, …) defined in `src/style/main.css` instead of raw colors
 
 ---
 

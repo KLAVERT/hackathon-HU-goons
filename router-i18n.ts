@@ -56,8 +56,4 @@ export const translatedPathnames =
 			"en-US": "/forgot-password",
 			"nl-NL": "/wachtwoord-vergeten",
 		},
-		"/form-example": {
-			"en-US": "/form-example",
-			"nl-NL": "/formulier-voorbeeld",
-		},
 	});

@@ -1,8 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 
-	"forms_optional": "Optional",
-
 	"loading_message": "Loading...",
 
 	"nav_logout": "Log out",

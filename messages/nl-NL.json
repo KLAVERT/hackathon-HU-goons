@@ -1,8 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 
-	"forms_optional": "Optioneel",
-
 	"loading_message": "Bezig met laden...",
 
 	"nav_logout": "Uitloggen",

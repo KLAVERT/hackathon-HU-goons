@@ -5,8 +5,8 @@
 	"scripts": {
 		"dev": "bun i && bun vite",
 		"build": "bun i --frozen-lockfile && bun vite build && bun tsc",
-		"check": "bun tsc --noEmit && bun biome check src && bun prettier --check 'src/**/*.{s,}css'",
-		"fix": "bun biome check --write src && bun prettier --write 'src/**/*.{s,}css' && bun tsc --noEmit"
+		"check": "bun tsc --noEmit && bun biome check src && bun prettier --check 'src/**/*.css'",
+		"fix": "bun biome check --write src && bun prettier --write 'src/**/*.css' && bun tsc --noEmit"
 	},
 	"dependencies": {
 		"@base-ui/react": "1.6.0",
@@ -16,13 +16,16 @@
 		"@tanstack/react-query": "5.100.6",
 		"@tanstack/react-router": "1.168.26",
 		"babel-plugin-react-compiler": "1.0.0",
+		"class-variance-authority": "0.7.1",
 		"clsx": "2.1.1",
 		"i18next": "26.0.8",
 		"i18next-fetch-backend": "7.0.0",
+		"lucide-react": "1.64.0",
 		"react": "19.2.5",
 		"react-dom": "19.2.5",
 		"react-i18next": "17.0.6",
-		"the-new-css-reset": "1.11.3",
+		"tailwind-merge": "3.7.0",
+		"tw-animate-css": "1.4.0",
 		"usehooks-ts": "3.1.1",
 		"zod": "4.4.1"
 	},
@@ -31,6 +34,7 @@
 		"@hey-api/openapi-ts": "0.97.1",
 		"@hey-api/vite-plugin": "0.3.1",
 		"@svgr/plugin-svgo": "8.1.0",
+		"@tailwindcss/vite": "4.3.3",
 		"@tanstack/router-plugin": "1.167.29",
 		"@types/bun": "1.3.13",
 		"@types/react": "19.2.14",
@@ -40,7 +44,7 @@
 		"postcss": "8.5.12",
 		"prettier": "3.8.3",
 		"prettier-plugin-css-order": "2.2.0",
-		"sass": "1.99.0",
+		"tailwindcss": "4.3.3",
 		"typescript": "5.9.3",
 		"vite": "7.2.2",
 		"vite-plugin-mkcert": "1.17.9",

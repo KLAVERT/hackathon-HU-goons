@@ -5,14 +5,17 @@ import {
 	Link,
 	useNavigate,
 } from "@tanstack/react-router";
-import clsx from "clsx";
-import { ErrorText } from "components/error-text/error-text";
-import { Button, Form } from "components/form";
-import { H1 } from "components/heading/heading";
+import { Button } from "components/ui/button";
+import {
+	Field,
+	FieldError,
+	FieldLabel,
+} from "components/ui/field";
+import { Input } from "components/ui/input";
 import { useAppForm } from "lib/forms";
 import {
 	mutateAndValidate,
-	normalizeFieldErrors,
+	toFieldErrors,
 } from "lib/forms/validation-helpers";
 import type { LoginRequest } from "lib/heyapi";
 import { postApiAuthLoginMutation } from "lib/heyapi/@tanstack/react-query.gen";
@@ -20,7 +23,6 @@ import { zLoginRequest } from "lib/heyapi/zod.gen";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
 import z from "zod";
-import style from "./login.module.scss";
 
 const loginSearchSchema = z.object({
 	redirect: z.optional(
@@ -61,59 +63,100 @@ function LoginPage() {
 
 	return (
 		<>
-			<H1 size="medium" className={style.textCenter}>
+			<h1 className="heading-medium text-center">
 				{m.login_title()}
-			</H1>
-			<Form
+			</h1>
+			<form
 				onSubmit={(evt) => {
 					evt.preventDefault();
 					form.handleSubmit();
 				}}
-				className={style.form}
-				disabled={mutation.isPending}
 			>
-				<form.AppField name="email">
-					{(field) => (
-						<field.Input
-							label={m.login_email()}
-							autoComplete="email"
-						/>
-					)}
-				</form.AppField>
-				<div className={style.label}>
-					<form.AppField name="password">
+				<fieldset
+					disabled={mutation.isPending}
+					className="flex flex-col gap-8"
+				>
+					<form.Field name="email">
 						{(field) => (
-							<field.Input
-								type="password"
-								label={m.login_password()}
-								autoComplete="current-password"
+							<Field
+								data-invalid={!field.state.meta.isValid}
+							>
+								<FieldLabel htmlFor={field.name}>
+									{m.login_email()}
+								</FieldLabel>
+								<Input
+									id={field.name}
+									name={field.name}
+									autoComplete="email"
+									value={field.state.value}
+									onChange={(evt) =>
+										field.handleChange(evt.target.value)
+									}
+									onBlur={field.handleBlur}
+									aria-invalid={!field.state.meta.isValid}
+								/>
+								<FieldError
+									errors={toFieldErrors(
+										field.state.meta.errors,
+									)}
+								/>
+							</Field>
+						)}
+					</form.Field>
+					<form.Field name="password">
+						{(field) => (
+							<Field
+								data-invalid={!field.state.meta.isValid}
+							>
+								<FieldLabel htmlFor={field.name}>
+									{m.login_password()}
+								</FieldLabel>
+								<Input
+									id={field.name}
+									name={field.name}
+									type="password"
+									autoComplete="current-password"
+									value={field.state.value}
+									onChange={(evt) =>
+										field.handleChange(evt.target.value)
+									}
+									onBlur={field.handleBlur}
+									aria-invalid={!field.state.meta.isValid}
+								/>
+								<FieldError
+									errors={toFieldErrors(
+										field.state.meta.errors,
+									)}
+								/>
+								<Link
+									to="/forgot-password"
+									className="self-end text-primary text-sm underline-offset-4 hover:underline"
+								>
+									{m.login_forgot_password()}
+								</Link>
+							</Field>
+						)}
+					</form.Field>
+
+					<form.Subscribe
+						selector={(state) => {
+							const errBag = state.errorMap.onSubmit;
+							return typeof errBag === "string"
+								? errBag
+								: errBag?.form;
+						}}
+					>
+						{(formError) => (
+							<FieldError
+								errors={toFieldErrors(formError)}
 							/>
 						)}
-					</form.AppField>
-					<Link
-						to="/forgot-password"
-						className={clsx([style.forgotPassword])}
-					>
-						{m.login_forgot_password()}
-					</Link>
-				</div>
-
-				<form.Subscribe
-					selector={(state) => {
-						const errBag = state.errorMap.onSubmit;
-						return typeof errBag === "string"
-							? errBag
-							: errBag?.form;
-					}}
-				>
-					{(formError) => (
-						<ErrorText>
-							{normalizeFieldErrors(formError)}
-						</ErrorText>
-					)}
-				</form.Subscribe>
-				<Button type="submit">{m.login_submit()}</Button>
-			</Form>
+					</form.Subscribe>
+					<Button type="submit" size="lg">
+						{m.login_submit()}
+					</Button>
+				</fieldset>
+			</form>
 		</>
 	);
 }

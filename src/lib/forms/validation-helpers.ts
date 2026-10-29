@@ -25,6 +25,21 @@ export const normalizeFieldErrors = (
 };
 
 /**
+ * Normalizes field errors into the shape shadcn's `FieldError` expects.
+ *
+ * @example
+ * <FieldError errors={toFieldErrors(field.state.meta.errors)} />
+ * toFieldErrors(["Required", { message: "Too short" }])
+ * // [{ message: "Required" }, { message: "Too short" }]
+ */
+export const toFieldErrors = (
+	errors: unknown,
+): { message: string }[] =>
+	normalizeFieldErrors(errors).map((message) => ({
+		message,
+	}));
+
+/**
  * Returns a flattened array of error from given fields
  */
 export const getFieldErrors = <
