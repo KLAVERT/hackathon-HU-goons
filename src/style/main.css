@@ -1,38 +1,41 @@
-@import url("https://fonts.googleapis.com/css2?family=Fustat:wght@200..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 /*
- * TODO: Replace these with the colors from your project's design.
- * Brand colors: Royal Blue (primary), Salmon (secondary),
- * Tea Green (tertiary), Persian Red (error), Grey (neutral).
+ * Hogeschool Utrecht palette, taken from the HU logo.
+ * The pure logo colors (--hu-blue, --hu-red) are too light for small white
+ * text, so interactive and text colors use slightly darker tints (WCAG AA).
  */
 :root {
-	--radius: 0.625rem;
+	--radius: 0.75rem;
 
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: #4169e1;
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: #ff8e77;
-	--secondary-foreground: oklch(0.205 0 0);
-	--tertiary: #c7efcf;
-	--tertiary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
-	--destructive: #cc3e40;
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: color-mix(in oklch, var(--primary), white 30%);
-	--success: oklch(0.627 0.194 149.214);
+	--hu-blue: #00a1e1;
+	--hu-red: #e6302b;
+
+	--background: #ffffff;
+	--foreground: #222222;
+	--card: #ffffff;
+	--card-foreground: #222222;
+	--popover: #ffffff;
+	--popover-foreground: #222222;
+	--primary: #0073a5;
+	--primary-foreground: #ffffff;
+	--secondary: #d12a25;
+	--secondary-foreground: #ffffff;
+	--tertiary: #e5f6fc;
+	--tertiary-foreground: #222222;
+	--muted: #f1f5f8;
+	--muted-foreground: #5b6670;
+	--accent: #e5f6fc;
+	--accent-foreground: #0073a5;
+	--destructive: #d12a25;
+	--border: #dde6ec;
+	--input: #dde6ec;
+	--ring: var(--hu-blue);
+	--success: #0073a5;
 }
 
 .dark {
@@ -52,8 +55,11 @@
 }
 
 @theme inline {
-	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-	--font-heading: "Fustat", ui-sans-serif, system-ui, sans-serif;
+	--font-sans: "Nunito Sans", Avenir, ui-sans-serif, system-ui, sans-serif;
+	--font-heading: "Nunito Sans", Avenir, ui-sans-serif, system-ui, sans-serif;
+
+	--color-hu-blue: var(--hu-blue);
+	--color-hu-red: var(--hu-red);
 
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -95,25 +101,36 @@
 	body {
 		@apply bg-background font-sans text-foreground leading-[1.6];
 	}
+
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		::before,
+		::after {
+			/* biome-ignore-start lint/complexity/noImportantStyles: only !important in the base layer can override animation utilities */
+			animation-duration: 0.01ms !important;
+			animation-iteration-count: 1 !important;
+			transition-duration: 0.01ms !important;
+			/* biome-ignore-end lint/complexity/noImportantStyles: see above */
+		}
+	}
 }
 
-/* TODO: Match these with the heading sizes of your project's design */
 @utility heading-small {
-	font-weight: 800;
-	font-size: var(--text-4xl);
+	font-weight: 900;
+	font-size: var(--text-3xl);
 	line-height: 1;
 	font-family: var(--font-heading);
 }
 
 @utility heading-medium {
-	font-weight: 800;
+	font-weight: 900;
 	font-size: var(--text-5xl);
 	line-height: 1;
 	font-family: var(--font-heading);
 }
 
 @utility heading-large {
-	font-weight: 800;
+	font-weight: 900;
 	font-size: var(--text-6xl);
 	line-height: 1;
 	font-family: var(--font-heading);

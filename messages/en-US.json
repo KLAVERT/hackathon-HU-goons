@@ -5,15 +5,22 @@
 
 	"common_close": "Close",
 
+	"nav_skip_to_content": "Skip to content",
+	"nav_home": "Hogeschool Utrecht, go to home page",
+	"nav_language": "Language",
+
 	"home_title": "Open Day scavenger hunt",
 	"home_intro": "Scan the QR codes hidden around the building. Every code fills its own spot in the bar at the top.",
 	"home_completed": "You found all the codes! Show this screen at the info desk.",
+	"home_help": "How does it work?",
 
+	"game_progress_title": "Scavenger hunt progress",
 	"game_progress_label": "{found} of {total} found",
 	"game_step_found": "Found",
 	"game_step_missing": "Still to find",
 	"game_step_unknown_code": "We don't recognise this QR code. Please try again.",
 	"game_step_scanned": "Found: {step}!",
+	"game_steps_heading": "Your locations",
 
 	"game_step_1_title": "Location 1",
 	"game_step_2_title": "Location 2",
@@ -30,6 +37,10 @@
 	"game_completed_title": "Congratulations!",
 	"game_completed_body": "You found all the QR codes. Show this screen at the info desk to collect your reward.",
 	"game_completed_close": "Great!",
+
+	"footer_event": "HU University of Applied Sciences Utrecht Open Day",
+	"footer_more_info": "More about HU on hu.nl",
+	"footer_new_tab": "(opens in a new tab)",
 
 	"login_title": "Login",
 	"login_email": "Email address",

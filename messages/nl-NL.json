@@ -5,15 +5,22 @@
 
 	"common_close": "Sluiten",
 
+	"nav_skip_to_content": "Naar de inhoud",
+	"nav_home": "Hogeschool Utrecht, naar de startpagina",
+	"nav_language": "Taal",
+
 	"home_title": "Open Dag speurtocht",
 	"home_intro": "Scan de QR-codes die door het gebouw verstopt zijn. Elke code vult zijn eigen plek in de balk bovenaan.",
 	"home_completed": "Je hebt alle codes gevonden! Laat dit scherm zien bij de infobalie.",
+	"home_help": "Hoe werkt het?",
 
+	"game_progress_title": "Voortgang speurtocht",
 	"game_progress_label": "{found} van {total} gevonden",
 	"game_step_found": "Gevonden",
 	"game_step_missing": "Nog te vinden",
 	"game_step_unknown_code": "Deze QR-code kennen we niet. Probeer het nog eens.",
 	"game_step_scanned": "Gevonden: {step}!",
+	"game_steps_heading": "Jouw locaties",
 
 	"game_step_1_title": "Locatie 1",
 	"game_step_2_title": "Locatie 2",
@@ -30,6 +37,10 @@
 	"game_completed_title": "Gefeliciteerd!",
 	"game_completed_body": "Je hebt alle QR-codes gevonden. Laat dit scherm zien bij de infobalie om je beloning op te halen.",
 	"game_completed_close": "Top!",
+
+	"footer_event": "Open Dag Hogeschool Utrecht",
+	"footer_more_info": "Meer over de HU op hu.nl",
+	"footer_new_tab": "(opent in een nieuw tabblad)",
 
 	"login_title": "Inloggen",
 	"login_email": "E-mailadres",

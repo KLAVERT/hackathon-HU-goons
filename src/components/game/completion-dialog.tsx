@@ -13,6 +13,7 @@ import {
 	useGameProgress,
 } from "lib/game/progress";
 import * as m from "lib/paraglide/messages";
+import { PartyPopperIcon } from "lucide-react";
 
 export const CompletionDialog = () => {
 	const { isComplete, introSeen, completionSeen } =
@@ -27,6 +28,12 @@ export const CompletionDialog = () => {
 		>
 			<DialogContent>
 				<DialogHeader>
+					<span className="mb-2 flex size-14 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
+						<PartyPopperIcon
+							aria-hidden
+							className="size-7"
+						/>
+					</span>
 					<DialogTitle className="font-extrabold text-2xl leading-tight">
 						{m.game_completed_title()}
 					</DialogTitle>

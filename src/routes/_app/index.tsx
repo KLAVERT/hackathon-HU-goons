@@ -1,20 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CompletionDialog } from "components/game/completion-dialog";
 import { IntroDialog } from "components/game/intro-dialog";
+import { StepList } from "components/game/step-list";
+import { Button } from "components/ui/button";
 import { useGameProgress } from "lib/game/progress";
-import { findStepById, STEPS } from "lib/game/steps";
+import { findStepById } from "lib/game/steps";
 import * as m from "lib/paraglide/messages";
 import { makePageTitle } from "lib/title";
-import { cn } from "lib/utils";
 import {
-	CircleCheckIcon,
-	CircleDashedIcon,
+	CircleAlertIcon,
+	CircleHelpIcon,
+	PartyPopperIcon,
+	QrCodeIcon,
 } from "lucide-react";
+import { useState } from "react";
 import z from "zod";
 
 const homeSearchSchema = z.object({
 	/** Id of the step that was just recorded, set by `/step/$stepId` */
-	scanned: z.optional(z.string()).catch(undefined),
+	scanned: z.optional(z.number()).catch(undefined),
 	unknown: z.optional(z.boolean()).catch(undefined),
 });
 
@@ -28,20 +32,35 @@ export const Route = createFileRoute("/_app/")({
 
 const ScanNotice = () => {
 	const { scanned, unknown } = Route.useSearch();
-	const scannedStep = scanned
-		? findStepById(scanned)
-		: undefined;
+	const scannedStep =
+		scanned === undefined
+			? undefined
+			: findStepById(scanned.toString());
 
 	if (unknown) {
 		return (
-			<p className="rounded-lg bg-destructive/10 p-3 text-destructive">
+			<p
+				role="alert"
+				className="flex items-center gap-3 rounded-xl border border-destructive/30 bg-destructive/5 p-4 font-semibold text-destructive text-lg"
+			>
+				<CircleAlertIcon
+					aria-hidden
+					className="size-6 shrink-0"
+				/>
 				{m.game_step_unknown_code()}
 			</p>
 		);
 	}
 	if (scannedStep) {
 		return (
-			<p className="rounded-lg bg-tertiary p-3 font-medium text-tertiary-foreground">
+			<p
+				role="status"
+				className="fade-in slide-in-from-top-2 flex animate-in items-center gap-3 rounded-xl bg-primary p-4 font-bold text-lg text-primary-foreground duration-500"
+			>
+				<QrCodeIcon
+					aria-hidden
+					className="size-6 shrink-0"
+				/>
 				{m.game_step_scanned({ step: scannedStep.title() })}
 			</p>
 		);
@@ -50,51 +69,43 @@ const ScanNotice = () => {
 };
 
 function HomePage() {
-	const { scanned, isComplete } = useGameProgress();
+	const { isComplete } = useGameProgress();
+	const [isHelpOpen, setIsHelpOpen] = useState(false);
 
 	return (
-		<div className="flex flex-col gap-6 pb-8">
-			<h1 className="heading-small">{m.home_title()}</h1>
+		<div className="flex flex-col gap-10">
 			<ScanNotice />
-			{isComplete ? (
-				<p className="rounded-lg bg-primary p-4 font-medium text-lg text-primary-foreground">
+			<section className="flex flex-col items-start gap-5">
+				<h1 className="heading-medium sm:heading-large">
+					{m.home_title()}
+				</h1>
+				<p className="max-w-2xl text-lg text-muted-foreground sm:text-xl">
+					{m.home_intro()}
+				</p>
+				<Button
+					variant="outline"
+					size="lg"
+					onClick={() => setIsHelpOpen(true)}
+					className="h-11 gap-2 px-4 font-bold"
+				>
+					<CircleHelpIcon aria-hidden className="size-5" />
+					{m.home_help()}
+				</Button>
+			</section>
+			{isComplete && (
+				<p className="flex items-center gap-3 rounded-xl bg-secondary p-5 font-bold text-lg text-secondary-foreground sm:text-xl">
+					<PartyPopperIcon
+						aria-hidden
+						className="size-6 shrink-0"
+					/>
 					{m.home_completed()}
 				</p>
-			) : (
-				<p>{m.home_intro()}</p>
 			)}
-			<ul className="flex flex-col gap-2">
-				{STEPS.map((step) => {
-					const isFound = scanned.includes(step.id);
-					const Icon = isFound
-						? CircleCheckIcon
-						: CircleDashedIcon;
-					return (
-						<li
-							key={step.id}
-							className={cn(
-								"flex items-center gap-3 rounded-lg border p-3",
-								!isFound && "text-muted-foreground",
-							)}
-						>
-							<Icon
-								aria-hidden
-								className={cn(
-									"size-5 shrink-0",
-									isFound && "text-primary",
-								)}
-							/>
-							<span className="flex-1">{step.title()}</span>
-							<span className="text-sm">
-								{isFound
-									? m.game_step_found()
-									: m.game_step_missing()}
-							</span>
-						</li>
-					);
-				})}
-			</ul>
-			<IntroDialog />
+			<StepList />
+			<IntroDialog
+				isHelpOpen={isHelpOpen}
+				onHelpOpenChange={setIsHelpOpen}
+			/>
 			<CompletionDialog />
 		</div>
 	);

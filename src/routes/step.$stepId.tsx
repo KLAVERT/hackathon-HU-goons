@@ -13,7 +13,7 @@ export const Route = createFileRoute("/step/$stepId")({
 			search:
 				result.status === "unknown"
 					? { unknown: true }
-					: { scanned: result.step.id },
+					: { scanned: Number(result.step.id) },
 			replace: true,
 		});
 	},

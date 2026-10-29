@@ -7,6 +7,7 @@ import {
 	deLocalizeUrl,
 	localizeUrl,
 } from "lib/paraglide/runtime";
+import { hidePreloader } from "lib/preloader";
 import { routeTree } from "../routeTree.gen";
 
 export type RouterContext = Readonly<{
@@ -25,6 +26,8 @@ const router = createRouter({
 		output: ({ url }) => localizeUrl(url),
 	},
 });
+
+router.subscribe("onRendered", hidePreloader);
 
 export const AppRouter = ({
 	queryClient,
