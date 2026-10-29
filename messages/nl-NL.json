@@ -3,9 +3,33 @@
 
 	"loading_message": "Bezig met laden...",
 
-	"nav_logout": "Uitloggen",
+	"common_close": "Sluiten",
 
-	"home_title": "Home",
+	"home_title": "Open Dag speurtocht",
+	"home_intro": "Scan de QR-codes die door het gebouw verstopt zijn. Elke code vult zijn eigen plek in de balk bovenaan.",
+	"home_completed": "Je hebt alle codes gevonden! Laat dit scherm zien bij de infobalie.",
+
+	"game_progress_label": "{found} van {total} gevonden",
+	"game_step_found": "Gevonden",
+	"game_step_missing": "Nog te vinden",
+	"game_step_unknown_code": "Deze QR-code kennen we niet. Probeer het nog eens.",
+	"game_step_scanned": "Gevonden: {step}!",
+
+	"game_step_1_title": "Locatie 1",
+	"game_step_2_title": "Locatie 2",
+	"game_step_3_title": "Locatie 3",
+	"game_step_4_title": "Locatie 4",
+	"game_step_5_title": "Locatie 5",
+	"game_step_6_title": "Locatie 6",
+
+	"game_intro_title": "Welkom bij de HU Open Dag speurtocht!",
+	"game_intro_body": "Door het gebouw hangen QR-codes. Scan ze met de camera van je telefoon. Elke code vult zijn eigen plek in de voortgangsbalk bovenaan, de volgorde maakt niet uit.",
+	"game_intro_goal": "Doel: vind alle codes en haal je beloning op bij de infobalie.",
+	"game_intro_start": "Start",
+
+	"game_completed_title": "Gefeliciteerd!",
+	"game_completed_body": "Je hebt alle QR-codes gevonden. Laat dit scherm zien bij de infobalie om je beloning op te halen.",
+	"game_completed_close": "Top!",
 
 	"login_title": "Inloggen",
 	"login_email": "E-mailadres",

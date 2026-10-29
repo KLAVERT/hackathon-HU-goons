@@ -2,15 +2,14 @@ import {
 	Link,
 	linkOptions,
 	Outlet,
-	useNavigate,
+	useSearch,
 } from "@tanstack/react-router";
 import Logo from "assets/icons/logo.svg?react";
-import { Button } from "components/ui/button";
+import { ProgressBar } from "components/game/progress-bar";
 import {
 	NativeSelect,
 	NativeSelectOption,
 } from "components/ui/native-select";
-import { postApiAuthLogout } from "lib/heyapi";
 import { useLocale } from "lib/i18n";
 import * as m from "lib/paraglide/messages";
 import type { Locale } from "lib/paraglide/runtime";
@@ -26,7 +25,7 @@ const links = linkOptions([
 
 const AppHeader = () => {
 	const locale = useLocale();
-	const navigate = useNavigate();
+	const { scanned } = useSearch({ strict: false });
 
 	const languageOptions = locales
 		.toSorted((a, b) => a.localeCompare(b, locale))
@@ -38,26 +37,21 @@ const AppHeader = () => {
 				}).of(lang) ?? "",
 		}));
 
-	const handleLogout = async () => {
-		await postApiAuthLogout();
-		navigate({ to: "/login" });
-	};
-
 	return (
-		<header className="flex items-center justify-between gap-4 py-4">
-			<nav className="flex items-center gap-4">
-				{links.map((link) => (
-					<Link
-						key={link.to}
-						to={link.to}
-						className="flex items-center gap-1 text-foreground no-underline data-[status=active]:underline"
-					>
-						{link.icon}
-						<span>{link.label()}</span>
-					</Link>
-				))}
-			</nav>
-			<div className="flex items-center gap-4">
+		<header className="sticky top-0 z-10 flex flex-col gap-3 bg-background py-4">
+			<div className="flex items-center justify-between gap-4">
+				<nav className="flex items-center gap-4">
+					{links.map((link) => (
+						<Link
+							key={link.to}
+							to={link.to}
+							className="flex items-center gap-1 text-foreground no-underline data-[status=active]:underline"
+						>
+							{link.icon}
+							<span>{link.label()}</span>
+						</Link>
+					))}
+				</nav>
 				<NativeSelect
 					name="lang"
 					defaultValue={locale.toString()}
@@ -71,10 +65,8 @@ const AppHeader = () => {
 						</NativeSelectOption>
 					))}
 				</NativeSelect>
-				<Button variant="outline" onClick={handleLogout}>
-					{m.nav_logout()}
-				</Button>
 			</div>
+			<ProgressBar highlightId={scanned} />
 		</header>
 	);
 };

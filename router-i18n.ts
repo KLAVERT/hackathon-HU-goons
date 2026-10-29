@@ -10,7 +10,11 @@ type RoutePath = keyof FileRoutesByTo;
 
 // All route paths that need to be translated.
 // Index paths are excluded. Add any others that need exclusion.
-type RequiredRoutePath = Exclude<RoutePath, `${string}/`>;
+// QR code urls are printed once for all languages, so they stay locale-neutral.
+type RequiredRoutePath = Exclude<
+	RoutePath,
+	`${string}/` | "/step/$stepId"
+>;
 
 type TranslatedPathname = {
 	pattern: string;

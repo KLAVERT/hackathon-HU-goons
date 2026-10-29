@@ -3,7 +3,12 @@ import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite";
+import {
+	defineConfig,
+	loadEnv,
+	type PreviewServer,
+	type ViteDevServer,
+} from "vite";
 import https from "vite-plugin-mkcert";
 import svgr from "vite-plugin-svgr";
 import viteTsConfigPaths from "vite-tsconfig-paths";
@@ -20,6 +25,35 @@ const documentLocale = () => ({
 	transformIndexHtml: (html: string) =>
 		html.replaceAll("%LOCALE%", baseLocale),
 });
+
+type ViteHttpServer = ViteDevServer["httpServer"];
+
+/**
+ * Works around a Node 22.21.0 bug: HTTP/1 requests to Vite's HTTP/2 https
+ * server crash with "server.shouldUpgradeCallback is not a function".
+ * Remove once everyone runs a fixed Node version.
+ */
+const http1UpgradeFix = () => {
+	const patch = (httpServer: ViteHttpServer) => {
+		if (
+			httpServer &&
+			!("shouldUpgradeCallback" in httpServer)
+		) {
+			Object.assign(httpServer, {
+				shouldUpgradeCallback: () =>
+					httpServer.listenerCount("upgrade") > 0,
+			});
+		}
+	};
+	return {
+		name: "http1-upgrade-fix",
+		configureServer: ({ httpServer }: ViteDevServer) =>
+			patch(httpServer),
+		configurePreviewServer: ({
+			httpServer,
+		}: PreviewServer) => patch(httpServer),
+	};
+};
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -57,6 +91,7 @@ export default defineConfig(({ mode }) => {
 				semicolons: true,
 			}),
 			https(),
+			http1UpgradeFix(),
 			react({
 				babel: { plugins: ["babel-plugin-react-compiler"] },
 			}),
