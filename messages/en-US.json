@@ -1,0 +1,21 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+
+	"forms_optional": "Optional",
+
+	"loading_message": "Loading...",
+
+	"nav_logout": "Log out",
+
+	"home_title": "Home",
+
+	"login_title": "Login",
+	"login_email": "Email address",
+	"login_password": "Password",
+	"login_forgot_password": "Forgot password?",
+	"login_submit": "Login",
+
+	"forgot_password_title": "Forgot password",
+
+	"not_found_title": "Not found"
+}
