@@ -60,7 +60,7 @@ const AppLayout = () => (
 	<div className="flex min-h-dvh flex-col">
 		<a
 			href={`#${MAIN_ID}`}
-			className="sr-only z-20 rounded-lg bg-primary px-4 py-3 font-bold text-primary-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+			className="sr-only rounded-lg bg-primary font-bold text-primary-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-3 focus:shadow-lg focus:outline-none focus:ring-3 focus:ring-ring focus:ring-offset-2"
 		>
 			{m.nav_skip_to_content()}
 		</a>
