@@ -1,90 +1,78 @@
 import {
 	Link,
-	linkOptions,
 	Outlet,
-	useNavigate,
+	useSearch,
 } from "@tanstack/react-router";
 import Logo from "assets/icons/logo.svg?react";
-import { Button } from "components/ui/button";
-import {
-	NativeSelect,
-	NativeSelectOption,
-} from "components/ui/native-select";
-import { postApiAuthLogout } from "lib/heyapi";
-import { useLocale } from "lib/i18n";
+import { ProgressBar } from "components/game/progress-bar";
+import { LanguageSelect } from "components/language-select/language-select";
 import * as m from "lib/paraglide/messages";
-import type { Locale } from "lib/paraglide/runtime";
-import { locales, setLocale } from "lib/paraglide/runtime";
+import { ExternalLinkIcon } from "lucide-react";
 
-const links = linkOptions([
-	{
-		to: "/",
-		icon: <Logo width="1rem" />,
-		label: m.home_title,
-	},
-]);
+const MAIN_ID = "main";
 
 const AppHeader = () => {
-	const locale = useLocale();
-	const navigate = useNavigate();
-
-	const languageOptions = locales
-		.toSorted((a, b) => a.localeCompare(b, locale))
-		.map((lang) => ({
-			value: lang,
-			label:
-				new Intl.DisplayNames([lang], {
-					type: "language",
-				}).of(lang) ?? "",
-		}));
-
-	const handleLogout = async () => {
-		await postApiAuthLogout();
-		navigate({ to: "/login" });
-	};
+	const { scanned } = useSearch({ strict: false });
 
 	return (
-		<header className="flex items-center justify-between gap-4 py-4">
-			<nav className="flex items-center gap-4">
-				{links.map((link) => (
+		<header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur">
+			<div className="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 pt-4 pb-3 sm:px-8">
+				<div className="flex items-center justify-between gap-4">
 					<Link
-						key={link.to}
-						to={link.to}
-						className="flex items-center gap-1 text-foreground no-underline data-[status=active]:underline"
+						to="/"
+						aria-label={m.nav_home()}
+						className="rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring focus-visible:ring-offset-4"
 					>
-						{link.icon}
-						<span>{link.label()}</span>
+						<Logo
+							aria-hidden
+							className="h-10 w-auto sm:h-12"
+						/>
 					</Link>
-				))}
-			</nav>
-			<div className="flex items-center gap-4">
-				<NativeSelect
-					name="lang"
-					defaultValue={locale.toString()}
-					onChange={({ currentTarget: { value } }) =>
-						setLocale(value as Locale)
-					}
-				>
-					{languageOptions.map(({ value, label }) => (
-						<NativeSelectOption key={value} value={value}>
-							{label}
-						</NativeSelectOption>
-					))}
-				</NativeSelect>
-				<Button variant="outline" onClick={handleLogout}>
-					{m.nav_logout()}
-				</Button>
+					<LanguageSelect />
+				</div>
+				<ProgressBar highlightId={scanned?.toString()} />
 			</div>
 		</header>
 	);
 };
 
+const AppFooter = () => (
+	<footer className="border-t bg-muted">
+		<div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-4 py-6 text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8">
+			<p className="font-semibold">{m.footer_event()}</p>
+			<a
+				href="https://www.hu.nl"
+				target="_blank"
+				rel="noopener noreferrer"
+				className="inline-flex items-center gap-1.5 self-start rounded-sm font-bold text-primary underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring"
+			>
+				{m.footer_more_info()}
+				<ExternalLinkIcon aria-hidden className="size-4" />
+				<span className="sr-only">
+					{m.footer_new_tab()}
+				</span>
+			</a>
+		</div>
+	</footer>
+);
+
 const AppLayout = () => (
-	<div className="mx-auto flex min-h-dvh w-full max-w-125 flex-col gap-4 px-4 lg:max-w-360">
+	<div className="flex min-h-dvh flex-col">
+		<a
+			href={`#${MAIN_ID}`}
+			className="sr-only rounded-lg bg-primary font-bold text-primary-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-3 focus:shadow-lg focus:outline-none focus:ring-3 focus:ring-ring focus:ring-offset-2"
+		>
+			{m.nav_skip_to_content()}
+		</a>
 		<AppHeader />
-		<main className="flex flex-1 flex-col">
+		<main
+			id={MAIN_ID}
+			tabIndex={-1}
+			className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-8 outline-none sm:px-8 sm:py-12"
+		>
 			<Outlet />
 		</main>
+		<AppFooter />
 	</div>
 );
 

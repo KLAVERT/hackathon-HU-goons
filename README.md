@@ -25,6 +25,12 @@ bun install
 bun run dev
 ```
 
+### 🔳 QR codes
+
+Every QR code opens the site on its step: `https://<domain>/step/<id>`, for example `/step/1` up to `/step/6`. Visitors can scan them in any order, and their progress is stored in `localStorage`. The steps and their order in the progress bar are configured in [`src/lib/game/steps.ts`](src/lib/game/steps.ts). Step names are translated in `messages/{locale}.json` (`game_step_N_title`).
+
+To reset your own progress while testing, run `localStorage.removeItem("hu-open-day-progress")` in the browser console.
+
 ### 👥 CODEOWNERS
 
 [`.github/CODEOWNERS`](.github/CODEOWNERS) lists the maintainers of this template. When starting a new project, replace them with the owners of that project, or remove the file. (Also, remove this chapter).

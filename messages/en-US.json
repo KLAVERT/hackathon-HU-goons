@@ -3,9 +3,44 @@
 
 	"loading_message": "Loading...",
 
-	"nav_logout": "Log out",
+	"common_close": "Close",
 
-	"home_title": "Home",
+	"nav_skip_to_content": "Skip to content",
+	"nav_home": "Hogeschool Utrecht, go to home page",
+	"nav_language": "Language",
+
+	"home_title": "Open Day scavenger hunt",
+	"home_intro": "Scan the QR codes hidden around the building. Every code fills its own spot in the bar at the top.",
+	"home_completed": "You found all the codes! Show this screen at the info desk.",
+	"home_help": "How does it work?",
+
+	"game_progress_title": "Scavenger hunt progress",
+	"game_progress_label": "{found} of {total} found",
+	"game_step_found": "Found",
+	"game_step_missing": "Still to find",
+	"game_step_unknown_code": "We don't recognise this QR code. Please try again.",
+	"game_step_scanned": "Found: {step}!",
+	"game_steps_heading": "Your locations",
+
+	"game_step_1_title": "Location 1",
+	"game_step_2_title": "Location 2",
+	"game_step_3_title": "Location 3",
+	"game_step_4_title": "Location 4",
+	"game_step_5_title": "Location 5",
+	"game_step_6_title": "Location 6",
+
+	"game_intro_title": "Welcome to the HU Open Day scavenger hunt!",
+	"game_intro_body": "QR codes are placed around the building. Scan them with your phone's camera. Every code fills its own spot in the progress bar at the top, in any order.",
+	"game_intro_goal": "Goal: find all the codes and collect your reward at the info desk.",
+	"game_intro_start": "Start",
+
+	"game_completed_title": "Congratulations!",
+	"game_completed_body": "You found all the QR codes. Show this screen at the info desk to collect your reward.",
+	"game_completed_close": "Great!",
+
+	"footer_event": "HU University of Applied Sciences Utrecht Open Day",
+	"footer_more_info": "More about HU on hu.nl",
+	"footer_new_tab": "(opens in a new tab)",
 
 	"login_title": "Login",
 	"login_email": "Email address",
