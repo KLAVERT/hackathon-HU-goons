@@ -10,6 +10,18 @@
 		<meta
 			name="viewport"
 			content="width=device-width, initial-scale=1.0" />
+		<!-- Set the theme before the first paint, so dark mode never flashes white. Kept in sync by lib/theme.ts -->
+		<script>
+			try {
+				const theme = JSON.parse(localStorage.getItem("theme") ?? "null");
+				const prefersDark = matchMedia("(prefers-color-scheme: dark)").matches;
+				if (theme === "dark" || (theme !== "light" && prefersDark)) {
+					document.documentElement.classList.add("dark");
+				}
+			} catch {
+				// Storage blocked (e.g. private mode): the app falls back to the OS setting
+			}
+		</script>
 		<!-- Boot preloader: inline so it shows before any JS is downloaded. Removed by lib/preloader.ts -->
 		<style>
 			#preloader {
@@ -22,6 +34,10 @@
 				transition:
 					opacity 0.4s ease,
 					visibility 0.4s;
+			}
+			/* Matches --background in style/main.css */
+			.dark #preloader {
+				background: #0d1820;
 			}
 			#preloader.is-done {
 				opacity: 0;

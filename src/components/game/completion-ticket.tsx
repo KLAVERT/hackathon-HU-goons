@@ -2,7 +2,13 @@ import { HuLoader } from "components/hu-loader/hu-loader";
 import { useGameProgress } from "lib/game/progress";
 import { useLocale } from "lib/i18n";
 import * as m from "lib/paraglide/messages";
-import { useEffect, useId, useState } from "react";
+import {
+	type RefObject,
+	useEffect,
+	useId,
+	useState,
+} from "react";
+import { RestartDialog } from "./restart-dialog";
 
 const LiveClock = () => {
 	const locale = useLocale();
@@ -29,7 +35,14 @@ const LiveClock = () => {
  * Proof of completion to show at the info desk. The ticking clock and the
  * looping logo make a screenshot easy to spot.
  */
-export const CompletionTicket = () => {
+type CompletionTicketProps = Readonly<{
+	/** Receives focus after restarting the game */
+	focusAfterRestart: RefObject<HTMLElement | null>;
+}>;
+
+export const CompletionTicket = ({
+	focusAfterRestart,
+}: CompletionTicketProps) => {
 	const { startedAt, completedAt } = useGameProgress();
 	const headingId = useId();
 	const minutes =
@@ -80,6 +93,9 @@ export const CompletionTicket = () => {
 				</div>
 			</dl>
 			<p className="text-sm">{m.ticket_proof()}</p>
+			<RestartDialog
+				focusAfterRestart={focusAfterRestart}
+			/>
 		</section>
 	);
 };

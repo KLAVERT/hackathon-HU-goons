@@ -13,7 +13,7 @@ import {
 	CircleHelpIcon,
 	QrCodeIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import z from "zod";
 
 const homeSearchSchema = z.object({
@@ -71,13 +71,20 @@ const ScanNotice = () => {
 function HomePage() {
 	const { isComplete } = useGameProgress();
 	const [isHelpOpen, setIsHelpOpen] = useState(false);
+	const headingRef = useRef<HTMLHeadingElement>(null);
 
 	return (
 		<div className="flex flex-col gap-10">
 			<ScanNotice />
-			{isComplete && <CompletionTicket />}
+			{isComplete && (
+				<CompletionTicket focusAfterRestart={headingRef} />
+			)}
 			<section className="flex flex-col items-start gap-5">
-				<h1 className="heading-medium sm:heading-large">
+				<h1
+					ref={headingRef}
+					tabIndex={-1}
+					className="heading-medium sm:heading-large outline-none"
+				>
 					{m.home_title()}
 				</h1>
 				<p className="max-w-2xl text-lg text-muted-foreground sm:text-xl">

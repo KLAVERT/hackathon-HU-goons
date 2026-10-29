@@ -1,12 +1,14 @@
 import {
 	createRootRouteWithContext,
-	ErrorComponent,
 	HeadContent,
 	Outlet,
 	redirect,
 	Scripts,
 } from "@tanstack/react-router";
-import * as m from "lib/paraglide/messages";
+import {
+	NotFoundPage,
+	ServerErrorPage,
+} from "components/error-page/error-page";
 import {
 	baseLocale,
 	getUrlOrigin,
@@ -14,10 +16,6 @@ import {
 	shouldRedirect,
 } from "lib/paraglide/runtime";
 import type { RouterContext } from "lib/router";
-
-const NotFoundPage = () => (
-	<h1 className="heading-medium">{m.not_found_title()}</h1>
-);
 
 export const Route =
 	createRootRouteWithContext<RouterContext>()({
@@ -53,8 +51,8 @@ export const Route =
 				<Scripts />
 			</>
 		),
-		errorComponent: (error) => (
-			<ErrorComponent error={error} />
+		errorComponent: ({ error }) => (
+			<ServerErrorPage error={error} />
 		),
 		notFoundComponent: NotFoundPage,
 	});

@@ -21,6 +21,10 @@ const router = createRouter({
 		queryClient: null!,
 	},
 	defaultPreload: "intent",
+	// Bubble route errors up to the root route, so every error gets the full-page 500 screen
+	defaultErrorComponent: ({ error }) => {
+		throw error;
+	},
 	rewrite: {
 		input: ({ url }) => deLocalizeUrl(url),
 		output: ({ url }) => localizeUrl(url),

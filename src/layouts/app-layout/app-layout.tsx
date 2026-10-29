@@ -6,6 +6,7 @@ import {
 import Logo from "assets/icons/logo.svg?react";
 import { ProgressBar } from "components/game/progress-bar";
 import { LanguageSelect } from "components/language-select/language-select";
+import { ThemeToggle } from "components/theme-toggle/theme-toggle";
 import * as m from "lib/paraglide/messages";
 import { ExternalLinkIcon } from "lucide-react";
 
@@ -28,7 +29,10 @@ const AppHeader = () => {
 							className="h-10 w-auto sm:h-12"
 						/>
 					</Link>
-					<LanguageSelect />
+					<div className="flex items-center gap-2">
+						<ThemeToggle />
+						<LanguageSelect />
+					</div>
 				</div>
 				<ProgressBar highlightId={scanned?.toString()} />
 			</div>

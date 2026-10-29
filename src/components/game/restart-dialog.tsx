@@ -13,7 +13,7 @@ import {
 import { resetProgress } from "lib/game/progress";
 import * as m from "lib/paraglide/messages";
 import { RotateCcwIcon } from "lucide-react";
-import { type RefObject, useRef } from "react";
+import type { RefObject } from "react";
 
 type RestartDialogProps = Readonly<{
 	/** Receives focus after restarting, because the trigger disappears with the ticket */
@@ -24,13 +24,13 @@ export const RestartDialog = ({
 	focusAfterRestart,
 }: RestartDialogProps) => {
 	const navigate = useNavigate();
-	const hasRestarted = useRef(false);
 
 	const handleRestart = () => {
-		hasRestarted.current = true;
 		resetProgress();
 		// Also clears "?scanned=", so the "found" notice doesn't linger
-		navigate({ to: "/", search: {}, replace: true });
+		navigate({ to: "/", search: {}, replace: true }).then(
+			() => focusAfterRestart.current?.focus(),
+		);
 	};
 
 	return (
@@ -47,13 +47,7 @@ export const RestartDialog = ({
 				<RotateCcwIcon aria-hidden className="size-5" />
 				{m.restart_button()}
 			</DialogTrigger>
-			<DialogContent
-				finalFocus={() =>
-					hasRestarted.current
-						? focusAfterRestart.current
-						: true
-				}
-			>
+			<DialogContent>
 				<DialogHeader>
 					<DialogTitle className="font-extrabold text-2xl leading-tight">
 						{m.restart_title()}

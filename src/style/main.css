@@ -38,20 +38,36 @@
 	--success: #0073a5;
 }
 
-.dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
+/*
+ * Night-blue surfaces. On dark backgrounds the dark tints fail contrast, so
+ * blue text uses a lighter tint (with dark text on top) instead.
+ * Screen only, so printed QR posters stay dark-on-white.
+ */
+@media screen {
+	.dark {
+		color-scheme: dark;
+
+		--background: #0d1820;
+		--foreground: #eef3f6;
+		--card: #14232e;
+		--card-foreground: #eef3f6;
+		--popover: #14232e;
+		--popover-foreground: #eef3f6;
+		--primary: #4cc3f0;
+		--primary-foreground: #0d1820;
+		--secondary: #d12a25;
+		--secondary-foreground: #ffffff;
+		--tertiary: #0f3347;
+		--tertiary-foreground: #eef3f6;
+		--muted: #1a2b37;
+		--muted-foreground: #9fb0bc;
+		--accent: #0f3347;
+		--accent-foreground: #4cc3f0;
+		--destructive: #ff6b66;
+		--border: #263a48;
+		--input: #2f4757;
+		--success: #4cc3f0;
+	}
 }
 
 @theme inline {
@@ -91,7 +107,8 @@
 
 @layer base {
 	* {
-		@apply border-border outline-ring/50;
+		/* Ring offsets default to white, which shows as a white gap in dark mode */
+		@apply border-border outline-ring/50 ring-offset-background;
 	}
 
 	#root {
@@ -112,6 +129,13 @@
 			transition-duration: 0.01ms !important;
 			/* biome-ignore-end lint/complexity/noImportantStyles: see above */
 		}
+	}
+}
+
+/* Dashed outline that slowly walks around, used on the 404 page */
+@keyframes hu-march {
+	to {
+		stroke-dashoffset: -4.2;
 	}
 }
 
