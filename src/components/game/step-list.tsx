@@ -2,7 +2,7 @@ import { useGameProgress } from "lib/game/progress";
 import { STEPS } from "lib/game/steps";
 import * as m from "lib/paraglide/messages";
 import { cn } from "lib/utils";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, LightbulbIcon } from "lucide-react";
 import { useId } from "react";
 
 export const StepList = () => {
@@ -50,18 +50,24 @@ export const StepList = () => {
 								<span className="truncate font-bold text-lg">
 									{step.title()}
 								</span>
-								<span
-									className={cn(
-										"text-base",
-										isFound
-											? "text-primary"
-											: "text-muted-foreground",
-									)}
-								>
-									{isFound
-										? m.game_step_found()
-										: m.game_step_missing()}
-								</span>
+								{isFound ? (
+									<span className="text-base text-primary">
+										{m.game_step_found()}
+									</span>
+								) : (
+									<span className="flex items-start gap-1.5 text-base text-muted-foreground">
+										<LightbulbIcon
+											aria-hidden
+											className="mt-1 size-4 shrink-0"
+										/>
+										<span>
+											<span className="sr-only">
+												{m.game_step_missing()}.{" "}
+											</span>
+											{step.hint()}
+										</span>
+									</span>
+								)}
 							</span>
 						</li>
 					);

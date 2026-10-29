@@ -14,14 +14,16 @@ import {
 } from "lib/game/progress";
 import * as m from "lib/paraglide/messages";
 import { PartyPopperIcon } from "lucide-react";
+import { Confetti } from "./confetti";
 
 export const CompletionDialog = () => {
 	const { isComplete, introSeen, completionSeen } =
 		useGameProgress();
+	const isOpen = isComplete && introSeen && !completionSeen;
 
 	return (
 		<Dialog
-			open={isComplete && introSeen && !completionSeen}
+			open={isOpen}
 			onOpenChange={(open) => {
 				if (!open) markCompletionSeen();
 			}}
@@ -47,6 +49,7 @@ export const CompletionDialog = () => {
 					</DialogClose>
 				</DialogFooter>
 			</DialogContent>
+			{isOpen && <Confetti />}
 		</Dialog>
 	);
 };

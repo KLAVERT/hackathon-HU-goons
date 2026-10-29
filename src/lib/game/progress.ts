@@ -21,6 +21,9 @@ const progressSchema = z.object({
 		.catch([]),
 	introSeen: z.boolean().default(false).catch(false),
 	completionSeen: z.boolean().default(false).catch(false),
+	/** Epoch ms of the first and the last scan, for the time on the completion ticket */
+	startedAt: z.number().optional().catch(undefined),
+	completedAt: z.number().optional().catch(undefined),
 });
 
 export type GameProgress = z.infer<typeof progressSchema>;
@@ -56,7 +59,7 @@ const parseProgress = (
  * until the stored value changes, as `useSyncExternalStore` requires.
  *
  * @example
- * getProgress() // { scanned: ["step-2"], introSeen: true, completionSeen: false }
+ * getProgress() // { scanned: ["2"], introSeen: true, completionSeen: false }
  */
 export const getProgress = (): GameProgress => {
 	const raw = readRaw();
@@ -97,6 +100,16 @@ export const subscribe = (listener: () => void) => {
 	};
 };
 
+/**
+ * Whether every step of the game has been scanned.
+ *
+ * @example
+ * isAllScanned(["1", "2", "3", "4", "5", "6"]) // true
+ * isAllScanned(["2"]) // false
+ */
+const isAllScanned = (scanned: readonly StepId[]) =>
+	STEPS.every((step) => scanned.includes(step.id));
+
 type ScanResult =
 	| { status: "new" | "duplicate"; step: GameStep }
 	| { status: "unknown" };
@@ -118,9 +131,13 @@ export const recordScan = (stepId: string): ScanResult => {
 	if (progress.scanned.includes(step.id)) {
 		return { status: "duplicate", step };
 	}
+	const scanned = [...progress.scanned, step.id];
+	const now = Date.now();
 	writeProgress({
 		...progress,
-		scanned: [...progress.scanned, step.id],
+		scanned,
+		startedAt: progress.startedAt ?? now,
+		completedAt: isAllScanned(scanned) ? now : undefined,
 	});
 	return { status: "new", step };
 };
@@ -146,6 +163,20 @@ export const markCompletionSeen = () =>
 	writeProgress({ ...getProgress(), completionSeen: true });
 
 /**
+ * Starts the game over: clears all scans and times. The intro stays marked
+ * as seen, since the visitor already knows how the game works.
+ *
+ * @example
+ * resetProgress();
+ * getProgress() // { scanned: [], introSeen: true, completionSeen: false }
+ */
+export const resetProgress = () =>
+	writeProgress({
+		...progressSchema.parse({}),
+		introSeen: true,
+	});
+
+/**
  * Reactive game progress, kept in sync with localStorage.
  *
  * @example
@@ -159,8 +190,6 @@ export const useGameProgress = () => {
 	return {
 		...progress,
 		scannedCount: progress.scanned.length,
-		isComplete: STEPS.every((step) =>
-			progress.scanned.includes(step.id),
-		),
+		isComplete: isAllScanned(progress.scanned),
 	};
 };

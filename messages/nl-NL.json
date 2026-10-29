@@ -4,6 +4,7 @@
 	"loading_message": "Bezig met laden...",
 
 	"common_close": "Sluiten",
+	"common_cancel": "Annuleren",
 
 	"nav_skip_to_content": "Naar de inhoud",
 	"nav_home": "Hogeschool Utrecht, naar de startpagina",
@@ -11,7 +12,6 @@
 
 	"home_title": "Open Dag speurtocht",
 	"home_intro": "Scan de QR-codes die door het gebouw verstopt zijn. Elke code vult zijn eigen plek in de balk bovenaan.",
-	"home_completed": "Je hebt alle codes gevonden! Laat dit scherm zien bij de infobalie.",
 	"home_help": "Hoe werkt het?",
 
 	"game_progress_title": "Voortgang speurtocht",
@@ -29,6 +29,13 @@
 	"game_step_5_title": "Locatie 5",
 	"game_step_6_title": "Locatie 6",
 
+	"game_step_1_hint": "Begin waar iedereen binnenkomt.",
+	"game_step_2_hint": "Waar ruikt het naar koffie?",
+	"game_step_3_hint": "Zoek tussen de boeken.",
+	"game_step_4_hint": "Hier wordt gebouwd, geprogrammeerd en geknutseld.",
+	"game_step_5_hint": "Hoog in het gebouw, met uitzicht.",
+	"game_step_6_hint": "Waar studenten even ontspannen.",
+
 	"game_intro_title": "Welkom bij de HU Open Dag speurtocht!",
 	"game_intro_body": "Door het gebouw hangen QR-codes. Scan ze met de camera van je telefoon. Elke code vult zijn eigen plek in de voortgangsbalk bovenaan, de volgorde maakt niet uit.",
 	"game_intro_goal": "Doel: vind alle codes en haal je beloning op bij de infobalie.",
@@ -38,9 +45,30 @@
 	"game_completed_body": "Je hebt alle QR-codes gevonden. Laat dit scherm zien bij de infobalie om je beloning op te halen.",
 	"game_completed_close": "Top!",
 
+	"ticket_title": "Speurtocht voltooid!",
+	"ticket_body": "Laat dit scherm zien bij de infobalie om je beloning op te halen.",
+	"ticket_time_taken": "Jouw tijd",
+	"ticket_minutes": "{minutes} min",
+	"ticket_clock": "Live klok",
+	"ticket_proof": "De tikkende klok en het bewegende logo laten zien dat dit scherm echt is, geen screenshot.",
+
+	"restart_button": "Opnieuw spelen",
+	"restart_title": "Opnieuw beginnen?",
+	"restart_body": "Je voortgang en je tijd worden gewist, en je ticket verdwijnt. Haal dus eerst je beloning op bij de infobalie!",
+	"restart_confirm": "Ja, opnieuw beginnen",
+
 	"footer_event": "Open Dag Hogeschool Utrecht",
 	"footer_more_info": "Meer over de HU op hu.nl",
 	"footer_new_tab": "(opent in een nieuw tabblad)",
+
+	"qr_title": "QR-codes printen",
+	"qr_intro": "Print deze pagina en hang elke poster op zijn locatie. Elke code opent de speurtocht op de juiste stap.",
+	"qr_print": "Printen",
+	"qr_poster_heading": "Open Dag speurtocht",
+	"qr_poster_scan": "Scan mij met je camera!",
+	"qr_code_label": "QR-code voor {step}",
+
+	"preloader_title": "Laadscherm",
 
 	"login_title": "Inloggen",
 	"login_email": "E-mailadres",
@@ -50,5 +78,14 @@
 
 	"forgot_password_title": "Wachtwoord vergeten",
 
-	"not_found_title": "Niet gevonden"
+	"error_code": "Foutcode {code}",
+	"error_page_title": "Er ging iets mis",
+	"error_page_body": "Dat ligt aan ons, niet aan jou. Je voortgang is veilig bewaard op je telefoon.",
+	"error_page_retry": "Opnieuw proberen",
+	"error_page_home": "Naar de startpagina",
+	"error_page_details": "Technische details",
+
+	"not_found_title": "Deze pagina is zoek",
+	"not_found_body": "Net als een goed verstopte QR-code. Alleen vind je deze niet meer terug.",
+	"not_found_home": "Terug naar de speurtocht"
 }

@@ -60,4 +60,12 @@ export const translatedPathnames =
 			"en-US": "/forgot-password",
 			"nl-NL": "/wachtwoord-vergeten",
 		},
+		"/preloader": {
+			"en-US": "/preloader",
+			"nl-NL": "/laadscherm",
+		},
+		"/qr-codes": {
+			"en-US": "/print-qr-codes",
+			"nl-NL": "/qr-codes-printen",
+		},
 	});

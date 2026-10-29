@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CompletionDialog } from "components/game/completion-dialog";
+import { CompletionTicket } from "components/game/completion-ticket";
 import { IntroDialog } from "components/game/intro-dialog";
 import { StepList } from "components/game/step-list";
 import { Button } from "components/ui/button";
@@ -10,7 +11,6 @@ import { makePageTitle } from "lib/title";
 import {
 	CircleAlertIcon,
 	CircleHelpIcon,
-	PartyPopperIcon,
 	QrCodeIcon,
 } from "lucide-react";
 import { useState } from "react";
@@ -75,6 +75,7 @@ function HomePage() {
 	return (
 		<div className="flex flex-col gap-10">
 			<ScanNotice />
+			{isComplete && <CompletionTicket />}
 			<section className="flex flex-col items-start gap-5">
 				<h1 className="heading-medium sm:heading-large">
 					{m.home_title()}
@@ -92,15 +93,6 @@ function HomePage() {
 					{m.home_help()}
 				</Button>
 			</section>
-			{isComplete && (
-				<p className="flex items-center gap-3 rounded-xl bg-secondary p-5 font-bold text-lg text-secondary-foreground sm:text-xl">
-					<PartyPopperIcon
-						aria-hidden
-						className="size-6 shrink-0"
-					/>
-					{m.home_completed()}
-				</p>
-			)}
 			<StepList />
 			<IntroDialog
 				isHelpOpen={isHelpOpen}

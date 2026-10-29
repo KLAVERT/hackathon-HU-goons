@@ -1,0 +1,85 @@
+import { HuLoader } from "components/hu-loader/hu-loader";
+import { useGameProgress } from "lib/game/progress";
+import { useLocale } from "lib/i18n";
+import * as m from "lib/paraglide/messages";
+import { useEffect, useId, useState } from "react";
+
+const LiveClock = () => {
+	const locale = useLocale();
+	const [now, setNow] = useState(() => new Date());
+
+	useEffect(() => {
+		const interval = setInterval(
+			() => setNow(new Date()),
+			1000,
+		);
+		return () => clearInterval(interval);
+	}, []);
+
+	return (
+		<time dateTime={now.toISOString()}>
+			{now.toLocaleTimeString(locale, {
+				timeStyle: "medium",
+			})}
+		</time>
+	);
+};
+
+/**
+ * Proof of completion to show at the info desk. The ticking clock and the
+ * looping logo make a screenshot easy to spot.
+ */
+export const CompletionTicket = () => {
+	const { startedAt, completedAt } = useGameProgress();
+	const headingId = useId();
+	const minutes =
+		startedAt === undefined || completedAt === undefined
+			? undefined
+			: Math.max(
+					1,
+					Math.round((completedAt - startedAt) / 60_000),
+				);
+
+	return (
+		<section
+			aria-labelledby={headingId}
+			className="flex flex-col gap-5 rounded-2xl bg-secondary p-6 text-secondary-foreground"
+		>
+			<div className="flex items-center gap-5">
+				<div className="grid size-20 shrink-0 place-items-center rounded-xl bg-background">
+					<HuLoader className="w-12" />
+				</div>
+				<div className="flex flex-col gap-1">
+					<h2
+						id={headingId}
+						className="font-black text-2xl"
+					>
+						{m.ticket_title()}
+					</h2>
+					<p className="font-semibold">{m.ticket_body()}</p>
+				</div>
+			</div>
+			<dl className="grid grid-cols-2 gap-3">
+				{minutes !== undefined && (
+					<div className="rounded-xl bg-black/15 p-3">
+						<dt className="font-semibold text-sm">
+							{m.ticket_time_taken()}
+						</dt>
+						<dd className="font-black text-2xl">
+							{m.ticket_minutes({ minutes })}
+						</dd>
+					</div>
+				)}
+				<div className="rounded-xl bg-black/15 p-3">
+					<dt className="font-semibold text-sm">
+						{m.ticket_clock()}
+					</dt>
+					<dd className="font-black text-2xl tabular-nums">
+						<LiveClock />
+					</dd>
+				</div>
+			</dl>
+			<p className="text-sm">{m.ticket_proof()}</p>
+		</section>
+	);
+};

@@ -4,6 +4,7 @@
 	"loading_message": "Loading...",
 
 	"common_close": "Close",
+	"common_cancel": "Cancel",
 
 	"nav_skip_to_content": "Skip to content",
 	"nav_home": "Hogeschool Utrecht, go to home page",
@@ -11,7 +12,6 @@
 
 	"home_title": "Open Day scavenger hunt",
 	"home_intro": "Scan the QR codes hidden around the building. Every code fills its own spot in the bar at the top.",
-	"home_completed": "You found all the codes! Show this screen at the info desk.",
 	"home_help": "How does it work?",
 
 	"game_progress_title": "Scavenger hunt progress",
@@ -29,6 +29,13 @@
 	"game_step_5_title": "Location 5",
 	"game_step_6_title": "Location 6",
 
+	"game_step_1_hint": "Start where everyone comes in.",
+	"game_step_2_hint": "Where does it smell like coffee?",
+	"game_step_3_hint": "Look between the books.",
+	"game_step_4_hint": "Where people build, code and tinker.",
+	"game_step_5_hint": "High up in the building, with a view.",
+	"game_step_6_hint": "Where students take a break.",
+
 	"game_intro_title": "Welcome to the HU Open Day scavenger hunt!",
 	"game_intro_body": "QR codes are placed around the building. Scan them with your phone's camera. Every code fills its own spot in the progress bar at the top, in any order.",
 	"game_intro_goal": "Goal: find all the codes and collect your reward at the info desk.",
@@ -38,9 +45,30 @@
 	"game_completed_body": "You found all the QR codes. Show this screen at the info desk to collect your reward.",
 	"game_completed_close": "Great!",
 
+	"ticket_title": "Hunt completed!",
+	"ticket_body": "Show this screen at the info desk to collect your reward.",
+	"ticket_time_taken": "Your time",
+	"ticket_minutes": "{minutes} min",
+	"ticket_clock": "Live clock",
+	"ticket_proof": "The ticking clock and moving logo show this screen is real, not a screenshot.",
+
+	"restart_button": "Play again",
+	"restart_title": "Start over?",
+	"restart_body": "Your progress and time will be erased, and your ticket disappears. So collect your reward at the info desk first!",
+	"restart_confirm": "Yes, start over",
+
 	"footer_event": "HU University of Applied Sciences Utrecht Open Day",
 	"footer_more_info": "More about HU on hu.nl",
 	"footer_new_tab": "(opens in a new tab)",
+
+	"qr_title": "Print QR codes",
+	"qr_intro": "Print this page and put up each poster at its location. Every code opens the scavenger hunt at the right step.",
+	"qr_print": "Print",
+	"qr_poster_heading": "Open Day scavenger hunt",
+	"qr_poster_scan": "Scan me with your camera!",
+	"qr_code_label": "QR code for {step}",
+
+	"preloader_title": "Loading screen",
 
 	"login_title": "Login",
 	"login_email": "Email address",
@@ -50,5 +78,14 @@
 
 	"forgot_password_title": "Forgot password",
 
-	"not_found_title": "Not found"
+	"error_code": "Error {code}",
+	"error_page_title": "Something went wrong",
+	"error_page_body": "That's on us, not you. Your progress is safely stored on your phone.",
+	"error_page_retry": "Try again",
+	"error_page_home": "Go to the home page",
+	"error_page_details": "Technical details",
+
+	"not_found_title": "This page went missing",
+	"not_found_body": "Just like a well-hidden QR code. Only this one can't be found.",
+	"not_found_home": "Back to the scavenger hunt"
 }
