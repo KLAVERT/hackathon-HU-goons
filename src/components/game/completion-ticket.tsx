@@ -1,5 +1,6 @@
 import { HuLoader } from "components/hu-loader/hu-loader";
 import { useGameProgress } from "lib/game/progress";
+import { STEPS } from "lib/game/steps";
 import { useLocale } from "lib/i18n";
 import * as m from "lib/paraglide/messages";
 import {
@@ -43,7 +44,8 @@ type CompletionTicketProps = Readonly<{
 export const CompletionTicket = ({
 	focusAfterRestart,
 }: CompletionTicketProps) => {
-	const { startedAt, completedAt } = useGameProgress();
+	const { startedAt, completedAt, correctCount } =
+		useGameProgress();
 	const headingId = useId();
 	const minutes =
 		startedAt === undefined || completedAt === undefined
@@ -56,7 +58,7 @@ export const CompletionTicket = ({
 	return (
 		<section
 			aria-labelledby={headingId}
-			className="flex flex-col gap-5 rounded-2xl bg-secondary p-6 text-secondary-foreground"
+			className="flex flex-col gap-5 rounded-2xl bg-primary p-6 text-primary-foreground"
 		>
 			<div className="flex items-center gap-5">
 				<div className="grid size-20 shrink-0 place-items-center rounded-xl bg-background">
@@ -73,6 +75,17 @@ export const CompletionTicket = ({
 				</div>
 			</div>
 			<dl className="grid grid-cols-2 gap-3">
+				<div className="rounded-xl bg-black/15 p-3">
+					<dt className="font-semibold text-sm">
+						{m.ticket_score()}
+					</dt>
+					<dd className="font-black text-2xl">
+						{m.ticket_score_value({
+							correct: correctCount,
+							total: STEPS.length,
+						})}
+					</dd>
+				</div>
 				{minutes !== undefined && (
 					<div className="rounded-xl bg-black/15 p-3">
 						<dt className="font-semibold text-sm">
@@ -83,7 +96,7 @@ export const CompletionTicket = ({
 						</dd>
 					</div>
 				)}
-				<div className="rounded-xl bg-black/15 p-3">
+				<div className="col-span-2 rounded-xl bg-black/15 p-3">
 					<dt className="font-semibold text-sm">
 						{m.ticket_clock()}
 					</dt>

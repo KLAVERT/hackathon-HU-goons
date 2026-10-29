@@ -29,14 +29,24 @@ const languageName = (locale: Locale) =>
 
 const LanguageOption = ({
 	locale,
-}: Readonly<{ locale: Locale }>) => {
+	isCompact = false,
+}: Readonly<{
+	locale: Locale;
+	/** Only the flag on small screens, so the header fits on a phone */
+	isCompact?: boolean;
+}>) => {
 	const Flag = flags[locale];
 	return (
 		<>
 			<span className="h-4 w-6 shrink-0 overflow-hidden rounded-[3px] ring-1 ring-foreground/10">
 				<Flag aria-hidden className="size-full" />
 			</span>
-			<span lang={locale}>{languageName(locale)}</span>
+			<span
+				lang={locale}
+				className={isCompact ? "max-sm:sr-only" : undefined}
+			>
+				{languageName(locale)}
+			</span>
 		</>
 	);
 };
@@ -55,7 +65,7 @@ export const LanguageSelect = () => (
 			<SelectValue>
 				{(value) =>
 					isLocale(value) && (
-						<LanguageOption locale={value} />
+						<LanguageOption locale={value} isCompact />
 					)
 				}
 			</SelectValue>

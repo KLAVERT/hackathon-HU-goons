@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnswerSummary } from "components/game/answer-summary";
 import { CompletionDialog } from "components/game/completion-dialog";
 import { CompletionTicket } from "components/game/completion-ticket";
 import { IntroDialog } from "components/game/intro-dialog";
@@ -100,7 +101,7 @@ function HomePage() {
 					{m.home_help()}
 				</Button>
 			</section>
-			<StepList />
+			{isComplete ? <AnswerSummary /> : <StepList />}
 			<IntroDialog
 				isHelpOpen={isHelpOpen}
 				onHelpOpenChange={setIsHelpOpen}

@@ -17,12 +17,12 @@ import * as m from "lib/paraglide/messages";
 
 type IntroDialogProps = Readonly<{
 	/** Opened again on request, after the visitor has already seen it */
-	isHelpOpen: boolean;
-	onHelpOpenChange: (open: boolean) => void;
+	isHelpOpen?: boolean;
+	onHelpOpenChange?: (open: boolean) => void;
 }>;
 
 export const IntroDialog = ({
-	isHelpOpen,
+	isHelpOpen = false,
 	onHelpOpenChange,
 }: IntroDialogProps) => {
 	const { introSeen } = useGameProgress();
@@ -31,7 +31,7 @@ export const IntroDialog = ({
 		<Dialog
 			open={!introSeen || isHelpOpen}
 			onOpenChange={(open) => {
-				onHelpOpenChange(open);
+				onHelpOpenChange?.(open);
 				if (!open) markIntroSeen();
 			}}
 		>

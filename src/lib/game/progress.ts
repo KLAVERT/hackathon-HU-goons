@@ -1,6 +1,8 @@
 import { useSyncExternalStore } from "react";
 import { z } from "zod";
 import {
+	CHOICES,
+	type Choice,
 	findStepById,
 	type GameStep,
 	STEPS,
@@ -12,16 +14,40 @@ const STORAGE_KEY = "hu-open-day-progress";
 const isStepId = (id: string): id is StepId =>
 	STEPS.some((step) => step.id === id);
 
+const answerSchema = z.object({
+	stepId: z.string(),
+	choice: z.enum(CHOICES),
+});
+
+export type Answer = Readonly<{
+	stepId: StepId;
+	choice: Choice;
+}>;
+
 const progressSchema = z.object({
-	scanned: z
-		.array(z.string())
-		// Drops ids of steps that were removed from the config
-		.transform((ids) => ids.filter(isStepId))
+	/** One answer per found step, in the order they were answered */
+	answers: z
+		.array(z.unknown())
+		// Drops invalid entries and answers to steps that were removed from the config
+		.transform((items) =>
+			items.flatMap((item): Answer[] => {
+				const result = answerSchema.safeParse(item);
+				return result.success &&
+					isStepId(result.data.stepId)
+					? [
+							{
+								stepId: result.data.stepId,
+								choice: result.data.choice,
+							},
+						]
+					: [];
+			}),
+		)
 		.default([])
 		.catch([]),
 	introSeen: z.boolean().default(false).catch(false),
 	completionSeen: z.boolean().default(false).catch(false),
-	/** Epoch ms of the first and the last scan, for the time on the completion ticket */
+	/** Epoch ms of the first and the last answer, for the time on the completion ticket */
 	startedAt: z.number().optional().catch(undefined),
 	completedAt: z.number().optional().catch(undefined),
 });
@@ -59,7 +85,7 @@ const parseProgress = (
  * until the stored value changes, as `useSyncExternalStore` requires.
  *
  * @example
- * getProgress() // { scanned: ["2"], introSeen: true, completionSeen: false }
+ * getProgress() // { answers: [{ stepId: "2", choice: "b" }], introSeen: true, ... }
  */
 export const getProgress = (): GameProgress => {
 	const raw = readRaw();
@@ -110,34 +136,68 @@ export const subscribe = (listener: () => void) => {
 const isAllScanned = (scanned: readonly StepId[]) =>
 	STEPS.every((step) => scanned.includes(step.id));
 
-type ScanResult =
+/**
+ * Finds the visitor's answer to a step, if they answered it.
+ *
+ * @example
+ * findAnswer(getProgress().answers, "2") // { stepId: "2", choice: "b" }
+ */
+export const findAnswer = (
+	answers: readonly Answer[],
+	stepId: string,
+) => answers.find((answer) => answer.stepId === stepId);
+
+/**
+ * Counts the answers that are right.
+ *
+ * @example
+ * countCorrect([{ stepId: "1", choice: "c" }, { stepId: "2", choice: "a" }]) // 1
+ */
+export const countCorrect = (answers: readonly Answer[]) =>
+	answers.filter(
+		(answer) =>
+			findStepById(answer.stepId)?.correct ===
+			answer.choice,
+	).length;
+
+type AnswerResult =
 	| { status: "new" | "duplicate"; step: GameStep }
 	| { status: "unknown" };
 
 /**
- * Stores the step of a scanned QR code.
- * Scanning the same code twice has no extra effect.
+ * Stores the answer to a step's question, which also marks the step as found.
+ * The first answer is final: answering the same step again has no effect.
  *
  * @example
- * recordScan("1") // { status: "new", step: { id: "1", ... } }
- * recordScan("1") // { status: "duplicate", step: { id: "1", ... } }
- * recordScan("99") // { status: "unknown" }
+ * recordAnswer("1", "c") // { status: "new", step: { id: "1", ... } }
+ * recordAnswer("1", "a") // { status: "duplicate", step: { id: "1", ... } }
+ * recordAnswer("99", "a") // { status: "unknown" }
  */
-export const recordScan = (stepId: string): ScanResult => {
+export const recordAnswer = (
+	stepId: string,
+	choice: Choice,
+): AnswerResult => {
 	const step = findStepById(stepId);
 	if (!step) return { status: "unknown" };
 
 	const progress = getProgress();
-	if (progress.scanned.includes(step.id)) {
+	if (findAnswer(progress.answers, step.id)) {
 		return { status: "duplicate", step };
 	}
-	const scanned = [...progress.scanned, step.id];
+	const answers = [
+		...progress.answers,
+		{ stepId: step.id, choice },
+	];
 	const now = Date.now();
 	writeProgress({
 		...progress,
-		scanned,
+		answers,
 		startedAt: progress.startedAt ?? now,
-		completedAt: isAllScanned(scanned) ? now : undefined,
+		completedAt: isAllScanned(
+			answers.map((answer) => answer.stepId),
+		)
+			? now
+			: undefined,
 	});
 	return { status: "new", step };
 };
@@ -163,12 +223,12 @@ export const markCompletionSeen = () =>
 	writeProgress({ ...getProgress(), completionSeen: true });
 
 /**
- * Starts the game over: clears all scans and times. The intro stays marked
+ * Starts the game over: clears all answers and times. The intro stays marked
  * as seen, since the visitor already knows how the game works.
  *
  * @example
  * resetProgress();
- * getProgress() // { scanned: [], introSeen: true, completionSeen: false }
+ * getProgress() // { answers: [], introSeen: true, completionSeen: false }
  */
 export const resetProgress = () =>
 	writeProgress({
@@ -180,16 +240,22 @@ export const resetProgress = () =>
  * Reactive game progress, kept in sync with localStorage.
  *
  * @example
- * const { scanned, scannedCount, isComplete } = useGameProgress();
+ * const { scanned, scannedCount, correctCount, isComplete } = useGameProgress();
  */
 export const useGameProgress = () => {
 	const progress = useSyncExternalStore(
 		subscribe,
 		getProgress,
 	);
+	// A step counts as found once its question is answered
+	const scanned = progress.answers.map(
+		(answer) => answer.stepId,
+	);
 	return {
 		...progress,
-		scannedCount: progress.scanned.length,
-		isComplete: isAllScanned(progress.scanned),
+		scanned,
+		scannedCount: scanned.length,
+		correctCount: countCorrect(progress.answers),
+		isComplete: isAllScanned(scanned),
 	};
 };

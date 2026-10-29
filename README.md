@@ -29,6 +29,8 @@ bun run dev
 
 Every QR code opens the site on its step: `https://<domain>/step/<id>`, for example `/step/1` up to `/step/6`. Visitors can scan them in any order, and their progress is stored in `localStorage`. The steps and their order in the progress bar are configured in [`src/lib/game/steps.ts`](src/lib/game/steps.ts). Step names and hints are translated in `messages/{locale}.json` (`game_step_N_title`, `game_step_N_hint`). The hints are placeholders: match them to the real locations.
 
+**Questions:** every QR code opens a multiple choice question (A–D) about IT, for visitors with little or no prior knowledge. A location counts as found once its question is answered; the first answer is final. After answering, visitors see whether they were right, the right answer and a short explanation. At the end, the ticket shows their score and the home page lists every answer. Questions, answers and explanations are in `messages/{locale}.json` (`game_step_N_question`, `game_step_N_answer_a` to `_d`, `game_step_N_explanation`); the right answer per step is `correct` in `steps.ts`.
+
 **Printing the posters:** open `/qr-codes-printen` (or `/print-qr-codes` in English) on the domain the site will run on, and press _Printen_. Every location gets its own A4 page with the HU logo, its QR code and its name. The codes link to the domain the page is opened on, so don't print them from `localhost`.
 
 **At the info desk:** visitors who found every code get a ticket with their time, a live clock and the moving HU logo. A ticking clock means it's not a screenshot.

@@ -40,7 +40,7 @@ export const RestartDialog = ({
 					<Button
 						variant="outline"
 						size="lg"
-						className="h-11 gap-2 self-start border-transparent px-4 font-bold text-secondary"
+						className="h-11 gap-2 self-start border-transparent bg-background px-4 font-bold text-foreground hover:bg-background/90 hover:text-foreground dark:bg-background dark:hover:bg-background/90"
 					/>
 				}
 			>
@@ -63,9 +63,7 @@ export const RestartDialog = ({
 						{m.common_cancel()}
 					</DialogClose>
 					<DialogClose
-						render={
-							<Button variant="secondary" size="lg" />
-						}
+						render={<Button size="lg" />}
 						onClick={handleRestart}
 					>
 						{m.restart_confirm()}

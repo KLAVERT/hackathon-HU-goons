@@ -12,13 +12,18 @@ import {
 	markCompletionSeen,
 	useGameProgress,
 } from "lib/game/progress";
+import { STEPS } from "lib/game/steps";
 import * as m from "lib/paraglide/messages";
 import { PartyPopperIcon } from "lucide-react";
 import { Confetti } from "./confetti";
 
 export const CompletionDialog = () => {
-	const { isComplete, introSeen, completionSeen } =
-		useGameProgress();
+	const {
+		isComplete,
+		introSeen,
+		completionSeen,
+		correctCount,
+	} = useGameProgress();
 	const isOpen = isComplete && introSeen && !completionSeen;
 
 	return (
@@ -43,6 +48,12 @@ export const CompletionDialog = () => {
 						{m.game_completed_body()}
 					</DialogDescription>
 				</DialogHeader>
+				<p className="rounded-lg bg-tertiary p-3 font-bold text-lg text-primary">
+					{m.game_completed_score({
+						correct: correctCount,
+						total: STEPS.length,
+					})}
+				</p>
 				<DialogFooter>
 					<DialogClose render={<Button size="lg" />}>
 						{m.game_completed_close()}
